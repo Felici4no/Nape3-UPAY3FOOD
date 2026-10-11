@@ -186,6 +186,16 @@ export function isDishSoldByWeight(title: string): boolean {
   return parseVolumeMl(title) === null && parseWeightG(title) !== null && WEIGHT_DISH.test(normalizeText(title));
 }
 
+/**
+ * Food sold by volume (açaí, caldo, sorvete, bowls by ml): a size in ml and not
+ * a drink. Drinks are compared per litre within their kind (`liquidValue`).
+ */
+export function isFoodSoldByVolume(title: string): boolean {
+  if (parseVolumeMl(title) === null) return false;
+  const kind = liquidKind(title);
+  return kind === null || kind === "acai";
+}
+
 /** Grams of a dish sold by weight; null for drinks, burgers and anything without grams. */
 export function dishWeightG(title: string): number | null {
   return isDishSoldByWeight(title) ? parseWeightG(title) : null;
