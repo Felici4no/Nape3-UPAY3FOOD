@@ -1,6 +1,9 @@
 # Submission — Crypto World's Fair (Colosseum)
 
-Updated 2026-10-10. Everything needed to fill each form, copy-paste ready.
+Updated 2026-10-11. Everything needed to fill each form, copy-paste ready.
+
+> [!WARNING]
+> Two fields depend on things not done yet: the Solana memo anchor (sign it on /transparencia, then fill its signature below) and the traction numbers. Do not submit them as placeholders.
 
 ## Deadline
 
@@ -49,6 +52,7 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
   - USDC funding shielded through Cloak (1 USDC shielded on mainnet, slot 453687294);
   - the methodology and calculation code hashed and anchored on mainnet via SPL Memo (/transparencia);
   - all RPC traffic through RPC Fast.
+- **Docs vault** (https://docs.upay3food.com): every Markdown note in the repository with a graph of how they link, backlinks and search; decisions, incidents and proofs included.
 
 **How Solana is used (be concrete).**
 1. Private funding:
@@ -56,24 +60,26 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
    - a relay guard enforces one signature, no wallet-funded lookup tables, and fresh quotes.
 2. Transparency anchor:
    - SHA-256 of `price-calculations.md` and of the engine sources, written as an SPL Memo;
-   - anyone can verify it on /transparencia or with `sha256sum`.
+   - anyone can verify it on /transparencia or with `sha256sum`;
+   - memo signature: `[fill after signing on /transparencia]`.
 3. RPC Fast:
    - the same-origin proxy (`/api/solana-rpc`) has a method allowlist and failure classification;
    - no key reaches the browser.
 
 **Tech.** TypeScript monorepo (pnpm):
 - Chrome MV3 extension (React);
-- Next.js 16 site on Vercel;
+- Next.js 16 site on Vercel, in English (the extension UI is in Portuguese, for Brazilian users);
 - MCP server (`mcp-handler`, Streamable HTTP);
 - `@solana/kit` + web3.js and `@cloak.dev/sdk`;
 - private Vercel Blob for the dev bridge;
-- 493 tests (vitest);
+- 497 tests (vitest), run in GitHub Actions on every push and PR;
 - regression fixtures derived from real sanitized iFood captures (commercial data only).
 
-**Open source.** https://github.com/Felici4no/Nape3-UPAY3FOOD — confirm the repository is **public** before submitting.
+**Open source.** https://github.com/Felici4no/Nape3-UPAY3FOOD (public, MIT). The default branch `main` carries the full build once [PR #1](https://github.com/Felici4no/Nape3-UPAY3FOOD/pull/1) is merged; the README is written for reviewers.
 
 **Prior work / third-party code (disclose).**
-- The repository was created on 2026-10-03, inside the hackathon window, and all ~130 commits are from then on.
+- The repository was created on 2026-10-03, inside the hackathon window, and every commit is from then on.
+- Development was AI-assisted: many commits are co-authored with Claude (Anthropic's coding assistant), under the founder's direction and review. The README says the same.
 - Third-party code: `@cloak.dev/sdk` (used as a dependency, with adapter code in `packages/payments/src/cloak`), `mcp-handler`, `@solana/kit`, `@solana/web3.js`, fontsource fonts.
 
 **Team.** Solo builder, Brazilian university student [course / university], a daily iFood user. Plan after the hackathon: keep building full-time, with a first hire for data partnerships.
@@ -98,14 +104,17 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 - Transparency: https://upay3food.com/transparencia
 - Docs: https://docs.upay3food.com
 - MCP: https://upay3food.com/api/mcp
+- GitHub: https://github.com/Felici4no/Nape3-UPAY3FOOD
 
 **Videos.** Pitch (≤ 3 min) and technical demo (≤ 3 min): [video scripts](video-scripts.md).
 
 ## Checklist
 
-- [ ] Repository public
+- [x] Repository public (MIT)
+- [ ] PR #1 merged, so `main` (the default branch) shows the project
+- [ ] GitHub "About": website `https://upay3food.com`, description and topics
 - [ ] Colosseum: project registered, base country Brazil, student status in team fields
-- [ ] Transparency anchor signed on mainnet (/transparencia) and its signature added to `apps/web/src/data/anchors.json`
+- [ ] Transparency anchor signed on mainnet (/transparencia), its signature added to `apps/web/src/data/anchors.json` and to the field above
 - [ ] 10+ testers via /instalar; numbers collected with "Copiar meus números"
 - [ ] Pitch video and demo video uploaded (hide the iFood delivery address)
 - [ ] Colosseum form submitted
