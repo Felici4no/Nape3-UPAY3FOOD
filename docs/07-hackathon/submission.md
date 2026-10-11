@@ -3,7 +3,7 @@
 Updated 2026-10-11. Everything needed to fill each form, copy-paste ready.
 
 > [!WARNING]
-> Two fields depend on things not done yet: the Solana memo anchor (sign it on /transparencia, then fill its signature below) and the traction numbers. Do not submit them as placeholders.
+> One field depends on something not done yet: the traction numbers. Do not submit them as placeholders.
 
 ## Deadline
 
@@ -61,7 +61,7 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 2. Transparency anchor:
    - SHA-256 of `price-calculations.md` and of the engine sources, written as an SPL Memo;
    - anyone can verify it on /transparencia or with `sha256sum`;
-   - memo signature: `[fill after signing on /transparencia]`.
+   - memo signature `3NcV2SHoB2cvcg15goPEVxk3crjrAjbntXhC5bhc8SAr8uiaQm5f1axFxRzyNLfQr8Vh7BzUGVaPJQaB1u5QaRaK`, slot 455501588 ([proof](../08-proofs/2026-10-11-transparency-anchor.md)).
 3. RPC Fast:
    - the same-origin proxy (`/api/solana-rpc`) has a method allowlist and failure classification;
    - no key reaches the browser.
@@ -75,7 +75,7 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 - 497 tests (vitest), run in GitHub Actions on every push and PR;
 - regression fixtures derived from real sanitized iFood captures (commercial data only).
 
-**Open source.** https://github.com/Felici4no/Nape3-UPAY3FOOD (public, MIT). The default branch `main` carries the full build once [PR #1](https://github.com/Felici4no/Nape3-UPAY3FOOD/pull/1) is merged; the README is written for reviewers.
+**Open source.** https://github.com/Felici4no/Nape3-UPAY3FOOD (public, MIT). The default branch `main` carries the full build; the README is written for reviewers.
 
 **Prior work / third-party code (disclose).**
 - The repository was created on 2026-10-03, inside the hackathon window, and every commit is from then on.
@@ -111,10 +111,10 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 ## Checklist
 
 - [x] Repository public (MIT)
-- [ ] PR #1 merged, so `main` (the default branch) shows the project
-- [ ] GitHub "About": website `https://upay3food.com`, description and topics
+- [x] PR #1 merged, so `main` (the default branch) shows the project
+- [x] GitHub "About": website `https://upay3food.com`, description and topics
 - [ ] Colosseum: project registered, base country Brazil, student status in team fields
-- [ ] Transparency anchor signed on mainnet (/transparencia), its signature added to `apps/web/src/data/anchors.json` and to the field above
+- [x] Transparency anchor signed on mainnet (slot 455501588), listed on /transparencia and in the field above
 - [ ] 10+ testers via /instalar; numbers collected with "Copiar meus números"
 - [ ] Pitch video and demo video uploaded (hide the iFood delivery address)
 - [ ] Colosseum form submitted

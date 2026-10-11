@@ -9,7 +9,7 @@ export const metadata = {
   description: "UPAY3FOOD's methodology and calculation code, with their hash anchored on Solana mainnet. Anyone can verify it."
 };
 
-export type Anchor = { signature: string; slot: number | null; signer: string; methodologySha256: string; engineSha256: string; commit: string | null; anchoredAt: string };
+export type Anchor = { signature: string; slot: number | null; signer: string | null; methodologySha256: string; engineSha256: string; commit: string | null; anchoredAt: string };
 
 export default function Transparencia() {
   const list = anchors as Anchor[];
