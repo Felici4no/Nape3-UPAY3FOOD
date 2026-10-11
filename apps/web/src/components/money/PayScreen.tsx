@@ -159,8 +159,8 @@ export default function PayScreen() {
           <span className={`eyebrow ${styles.eyebrow}`}>UPAY3FOOD Pay</span>
           <h1 className={`display ${styles.h1}`}>No checkout to pay.</h1>
           <p className={styles.lede}>
-            Open UPAY3FOOD.agent on an iFood checkout with Pix and choose “Pay with crypto”, or use Execute on a market page with your
-            checkout total.
+            Paying an iFood order&apos;s Pix with USDC is not live yet: it needs a licensed off-ramp partner. Today the extension reads the Pix
+            payload on the checkout page, and this screen walks through the funding steps without settling anything.
           </p>
         </div>
       </div>

@@ -45,6 +45,6 @@ export default function MainnetShieldProofPage() {
 → confirmation
 → SHIELDED`}</pre></section>
     <section className={styles.section}><span className="eyebrow">PRIVACY BOUNDARY</span><h2>What this proof means</h2><p>The shield transaction is public. Cloak is used to break the later on-chain link between that public wallet deposit and a shielded withdrawal. This proof does not claim that Pix is private and does not prove merchant settlement.</p></section>
-    <section className={styles.section}><span className="eyebrow">SOURCE OF RECORD</span><h2>Preserved in GitHub</h2><p>The successful proof is separate from the earlier failed-attempt incident so the project history remains auditable.</p><div className={styles.actions}><a className="btn" href="https://github.com/Felici4no/Nape3-UPAY3FOOD/blob/claude/youthful-hypatia-a3c9mn/docs/08-proofs/2026-10-05-mainnet-shield.md" target="_blank" rel="noreferrer">Canonical proof</a></div></section>
+    <section className={styles.section}><span className="eyebrow">SOURCE OF RECORD</span><h2>Preserved in GitHub</h2><p>The successful proof is separate from the earlier failed-attempt incident so the project history remains auditable.</p><div className={styles.actions}><a className="btn" href="https://github.com/Felici4no/Nape3-UPAY3FOOD/blob/main/docs/08-proofs/2026-10-05-mainnet-shield.md" target="_blank" rel="noreferrer">Canonical proof</a></div></section>
   </div>;
 }
