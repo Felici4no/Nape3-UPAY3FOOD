@@ -31,6 +31,10 @@ export default function PrivacyPage() {
           Cloak hides one thing very well: the on-chain link between your wallet and what you buy. It does not make Pix private and it does
           not hide amounts entering or leaving the pool. Here is exactly where the line is.
         </p>
+        <p className={styles.status}>
+          <b>Live today:</b> shielding USDC into Cloak on Solana mainnet. <b>Not live:</b> paying the order&apos;s Pix from the pool, which
+          needs a licensed off-ramp partner. Steps 4 and 5 below describe that flow as designed.
+        </p>
 
         <ol className={styles.flow}>
           {FLOW.map((step, i) => (
@@ -73,7 +77,7 @@ export default function PrivacyPage() {
           <div>
             <h2 className="display">Use it well</h2>
             <p>{PRIVACY_COPY.tip}</p>
-            <p>The privacy has a price, shown before you confirm: Cloak's withdraw fee is 0,45 USDC + 0,3% (about 0,47 USDC on a R$27,79 order).</p>
+            <p>The privacy has a price, shown before you confirm: Cloak's withdraw fee is 0.45 USDC + 0.3% (about 0.47 USDC on a R$27.79 order).</p>
           </div>
           <div>
             <h2 className="display">Your keys</h2>

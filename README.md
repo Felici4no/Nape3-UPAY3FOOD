@@ -20,6 +20,7 @@ iFood, Rappi, 99Food or Keeta.
 | Transparency (Solana anchor) | https://upay3food.com/transparencia |
 | Documentation | https://docs.upay3food.com |
 | Mainnet proof (Cloak shield) | [docs/08-proofs/2026-10-05-mainnet-shield.md](docs/08-proofs/2026-10-05-mainnet-shield.md) |
+| Mainnet proof (rules anchor) | [docs/08-proofs/2026-10-11-transparency-anchor.md](docs/08-proofs/2026-10-11-transparency-anchor.md) |
 
 <p align="center">
   <img src="apps/web/public/instalar/raio-x.png" width="300" alt="The extension popup on a real iFood product: You pay 3 times and the Price X-ray" />
@@ -37,7 +38,7 @@ iFood, Rappi, 99Food or Keeta.
 | On-page highlight | Outlines the best item per litre and the item the agent picked, on iFood's own menu. |
 | Explainable agent | “quero açaí 500ml até R$25” → cheapest estimated checkout, nearest size, best per litre and a link to the item. |
 | **MCP server** | 9 tools + 1 prompt, Streamable HTTP, no login, stores nothing. Works with Claude, ChatGPT, Cursor and other MCP clients. |
-| **Solana: transparency anchor** | SHA-256 of the methodology and of the calculation code, written as an SPL Memo on mainnet; verifiable on /transparencia or with `sha256sum`. |
+| **Solana: transparency anchor** | SHA-256 of the methodology and of the calculation code, anchored as an SPL Memo on mainnet (slot 455501588); verifiable on /transparencia or with `sha256sum`. |
 | **Solana: private funding** | 1.000000 USDC shielded into Cloak on mainnet (slot 453687294). |
 | Solana RPC | All traffic goes through RPC Fast via a same-origin proxy with a method allowlist; no key reaches the browser. |
 | Paying the order's Pix with USDC | **Not live.** The extension reads the Pix payload; settlement needs a licensed off-ramp partner and stays off until one exists ([ADR-006](docs/decisions/ADR-006-payments-without-token.md)). |

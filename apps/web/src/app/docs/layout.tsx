@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: "UPAY3FOOD vault: product, architecture, decisions, incidents, spikes and on-chain proofs, linked like a knowledge base."
 };
 
-const REPO = "https://github.com/Felici4no/Nape3-UPAY3FOOD/tree/claude/youthful-hypatia-a3c9mn";
+const REPO = "https://github.com/Felici4no/Nape3-UPAY3FOOD/tree/main";
 
 /**
  * Docs as a vault: ribbon, file explorer, tabs, the note, and a right pane

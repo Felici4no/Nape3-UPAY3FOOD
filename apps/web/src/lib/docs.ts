@@ -25,7 +25,7 @@ export interface DocEntry {
 export interface GraphNode { slug: string; group: string; x: number; y: number }
 export type GraphEdge = [string, string, "link" | "folder"];
 
-export const REPO_TREE = "https://github.com/Felici4no/Nape3-UPAY3FOOD/blob/claude/youthful-hypatia-a3c9mn";
+export const REPO_TREE = "https://github.com/Felici4no/Nape3-UPAY3FOOD/blob/main";
 
 export const docs: DocEntry[] = (index as unknown as { docs: DocEntry[] }).docs;
 export const graph = (index as unknown as { graph: { nodes: GraphNode[]; edges: GraphEdge[] } }).graph;
