@@ -1,5 +1,5 @@
 import type { MenuAdvice, MenuCandidate } from "@nape3/agent";
-import { comboPremiums, costInsights, formatBRL, isDishSoldByWeight, liquidValue, menuValue, priceLayers, readBurger, unitInsights, type Cents } from "@nape3/domain";
+import { comboPremiums, costInsights, formatBRL, isDishSoldByWeight, isFoodSoldByVolume, liquidValue, menuValue, priceLayers, readBurger, unitInsights, type Cents } from "@nape3/domain";
 import type { CartSnapshot, MenuCard, PageSnapshot } from "../shared/types";
 
 const brl = (cents: number) => formatBRL(cents as Cents);
@@ -197,7 +197,7 @@ export function CostXray({ snapshot }: { snapshot: PageSnapshot }) {
  * whichever this shop sells most of, plus what each combo charges for its extras.
  */
 export function MenuValueCard({ menu }: { menu: readonly MenuCard[] }) {
-  const acai = menu.filter((item) => /a[cç]a[ií]/i.test(item.title));
+  const acai = menu.filter((item) => isFoodSoldByVolume(item.title));
   const burgers = menu.filter((item) => !isDishSoldByWeight(item.title) && (readBurger(item.title).meatGrams !== null || readBurger(item.title).isCombo));
   const byVolume = menuValue(acai, "volume");
   const byMeat = menuValue(burgers, "meat");

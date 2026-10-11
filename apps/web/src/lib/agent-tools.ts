@@ -1,5 +1,5 @@
 import { adviseFromMenus, parseIntent, type MenuObservation } from "@nape3/agent";
-import { comboPremiums, costInsights, isDishSoldByWeight, liquidValue, menuValue, priceLayers, readBagText, readBurger, readMenuText } from "@nape3/domain";
+import { comboPremiums, costInsights, isDishSoldByWeight, isFoodSoldByVolume, liquidValue, menuValue, priceLayers, readBagText, readBurger, readMenuText } from "@nape3/domain";
 
 /**
  * UPAY3FOOD for other agents: the same pure calculations the extension uses,
@@ -68,16 +68,18 @@ export function itemCost(input: { title: string; price_brl: number; original_pri
   };
 }
 
-export function rankMenu(input: { items: Array<{ title: string; price_brl: number }>; kind?: "auto" | "acai" | "burger" | "by_weight" | "drinks" }) {
+export function rankMenu(input: { items: Array<{ title: string; price_brl: number }>; kind?: "auto" | "by_volume" | "acai" | "burger" | "by_weight" | "drinks" }) {
   const items = input.items.map((i) => ({ title: i.title, priceCents: toCents(i.price_brl)! }));
-  const acai = items.filter((i) => /a[cç]a[ií]/i.test(i.title));
+  const acai = items.filter((i) => isFoodSoldByVolume(i.title));
   const burgers = items.filter((i) => !isDishSoldByWeight(i.title) && (readBurger(i.title).meatGrams !== null || readBurger(i.title).isCombo));
   const dishes = items.filter((i) => isDishSoldByWeight(i.title));
+  // "acai" is the old name of "by_volume", kept so existing agents keep working
+  const asked = input.kind === "acai" ? "by_volume" : input.kind;
   const kind =
-    input.kind && input.kind !== "auto"
-      ? input.kind
+    asked && asked !== "auto"
+      ? asked
       : acai.length >= 2 && acai.length >= dishes.length
-        ? "acai"
+        ? "by_volume"
         : burgers.length >= 2 && burgers.length >= dishes.length
           ? "burger"
           : dishes.length >= 2
@@ -97,11 +99,11 @@ export function rankMenu(input: { items: Array<{ title: string; price_brl: numbe
     };
   }
   const row = (r: { title: string; priceCents: number; volumeMl: number; pricePer100mlCents: number }) => ({ title: r.title, price_brl: toBrl(r.priceCents), amount: r.volumeMl, price_per_100_brl: toBrl(r.pricePer100mlCents) });
-  if (kind === "acai" || kind === "burger") {
-    const v = menuValue(kind === "acai" ? acai : burgers, kind === "acai" ? "volume" : "meat");
+  if (kind === "by_volume" || kind === "burger") {
+    const v = menuValue(kind === "by_volume" ? acai : burgers, kind === "by_volume" ? "volume" : "meat");
     return {
       kind,
-      unit: kind === "acai" ? "ml" : "g of meat",
+      unit: kind === "by_volume" ? "ml" : "g of meat",
       ranked: v.ranked.map(row),
       spread_pct: v.spreadPct,
       unranked: v.unranked,

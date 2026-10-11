@@ -1,4 +1,4 @@
-import { formatBRL, isDishSoldByWeight, liquidValue, menuValue, readBurger, type Cents } from "@nape3/domain";
+import { formatBRL, isDishSoldByWeight, isFoodSoldByVolume, liquidValue, menuValue, readBurger, type Cents } from "@nape3/domain";
 import type { MenuCard } from "../shared/types";
 import { clean, isVisible, textOf } from "./dom";
 
@@ -38,7 +38,7 @@ export function pickHighlights(menu: readonly MenuCard[], recommended?: Recommen
       label: `Recomendado${recommended.estimatedTotalCents !== null ? ` · ${formatBRL(recommended.estimatedTotalCents as Cents)} estimado` : ""}`
     });
   }
-  const acai = menu.filter((m) => /a[cç]a[ií]/i.test(m.title));
+  const acai = menu.filter((m) => isFoodSoldByVolume(m.title));
   const acaiValue = menuValue(acai, "volume");
   if (acaiValue.best && acaiValue.ranked.length >= 2) {
     add({ title: acaiValue.best.title, priceCents: acaiValue.best.priceCents, tone: "best", label: `★ Melhor por litro · ${formatBRL((acaiValue.best.pricePer100mlCents * 10) as Cents)}/L` });

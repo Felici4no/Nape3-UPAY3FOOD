@@ -3,11 +3,15 @@
 > **You pay 3 times for food:** the food, the fees, and the difference to the
 > cheapest option. In Portuguese, *“Você paga 3 vezes pela comida”*.
 
-UPAY3FOOD shows all three on iFood. A browser extension reads the page the user
-already sees, ranks the whole menu per litre and per gram, outlines the item
-worth buying and takes the user to it. A public MCP server lets any AI agent do
-the same math. The calculation rules are hashed and anchored on Solana, and
-purchase funding can be shielded with USDC through Cloak.
+**Unit pricing for food delivery.** In the EU and Australia, supermarkets must
+show the price per kilo or per litre. Delivery apps sell the same food without
+it. UPAY3FOOD adds unit prices and the three layers to any iFood menu: burgers
+per 100 g of meat, drinks per litre, dishes sold by weight per 100 g, food sold
+by volume per 100 ml, shared dishes per person. A browser extension reads the
+page the user already sees, outlines the item worth buying and takes the user
+to it. A public MCP server lets any AI agent do the same math. The calculation
+rules are hashed and anchored on Solana, and purchase funding can be shielded
+with USDC through Cloak.
 
 Built for the Colosseum Crypto World's Fair hackathon. Not affiliated with
 iFood, Rappi, 99Food or Keeta.
@@ -33,10 +37,10 @@ iFood, Rappi, 99Food or Keeta.
 |---|---|
 | **Extension** (Chrome, Edge, Brave; MV3) | Reads iFood shop, product and bag pages; shop pages work without login. Calibrated on real pages; regression tests use sanitized captures (commercial data only). |
 | You pay 3 times | Food, fees and the difference to the cheapest comparable option, in integer cents. Menu prices are labelled as estimates until the bag confirms them. |
-| Price X-ray | Per 100 ml, per litre, per 100 g of meat, per person, and how much of the product the fees are worth. |
-| The size worth buying | The whole menu ranked per litre or per 100 g of meat; tubs, combos and drinks compared separately. |
+| Price X-ray | Per 100 ml, per litre, per 100 g, per person, and how much of the product the fees are worth. |
+| Unit prices for the menu | Burgers per 100 g of meat (with what a combo charges for its extras), dishes sold by weight per 100 g, food sold by volume per 100 ml, drinks per litre within their kind; tubs and 1 kg packs apart. |
 | On-page highlight | Outlines the best item per litre and the item the agent picked, on iFood's own menu. |
-| Explainable agent | “quero açaí 500ml até R$25” → cheapest estimated checkout, nearest size, best per litre and a link to the item. |
+| Explainable agent | “quero hambúrguer até R$40” (a burger under R$40) → cheapest estimated checkout, best per 100 g of meat and a link to the item; açaí by size works the same way. |
 | **MCP server** | 9 tools + 1 prompt, Streamable HTTP, no login, stores nothing. Works with Claude, ChatGPT, Cursor and other MCP clients. |
 | **Solana: transparency anchor** | SHA-256 of the methodology and of the calculation code, anchored as an SPL Memo on mainnet (slot 455501588); verifiable on /transparencia or with `sha256sum`. |
 | **Solana: private funding** | 1.000000 USDC shielded into Cloak on mainnet (slot 453687294). |

@@ -17,7 +17,7 @@ use them: Claude, ChatGPT, Cursor, Claude Code, or your own.
 | `compare_bags` | 2–20 real bags of the same purchase | ranked by total; layer 3 = difference to the cheapest bag |
 | `price_breakdown` | food, delivery, service, discount, total, cheapest comparable | the 3 layers, fee share, estimate flags |
 | `item_cost` | title, price, struck price, servings text, fees | per 100 ml / litre / 100 g, 100 ml with fees, fees in ml of product, per person, discount, burger meat grams/type |
-| `rank_menu` | menu items | açaí per 100 ml (potes apart), burgers per 100 g of meat + combo extras, drinks per litre by kind |
+| `rank_menu` | menu items | unit prices: per 100 ml for food sold by volume (tubs apart), per 100 g of meat for burgers + combo extras, per 100 g for dishes sold by weight (1 kg packs apart), drinks per litre by kind. `kind`: `auto`, `by_volume` (old name `acai` still accepted), `burger`, `by_weight`, `drinks` |
 | `advise` | request in pt-BR + menus the agent read | cheapest estimated checkout for the size, nearest size within budget, best per litre, link to the item |
 | `parse_ifood_link` | URL | city, shop slug, shop id, item id; drops every other query value |
 | `methodology` | — | the rules, link to [price calculations](price-calculations.md) |

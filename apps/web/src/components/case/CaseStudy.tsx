@@ -38,7 +38,7 @@ export function CaseStudy() {
     <section className={`wrap ${styles.case}`} aria-labelledby="case-title">
       <div className={styles.head}>
         <span className="eyebrow">
-          Real shop · {data.shop}, {data.city} · {data.observedOn}
+          Example · one real shop: {data.shop}, {data.city} · {data.observedOn}
         </span>
         <h2 id="case-title" className={`display ${styles.h2}`}>One menu, {read.items_read} items, one calculation.</h2>
         <p className={styles.lede}>

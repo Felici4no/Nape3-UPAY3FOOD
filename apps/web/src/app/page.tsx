@@ -2,17 +2,28 @@ import Link from "next/link";
 import { CaseStudy } from "@/components/case/CaseStudy";
 import styles from "./home.module.css";
 
+/** What the engine compares today (packages/domain: menuValue, liquidValue, costInsights, priceLayers). */
+const UNITS = [
+  { food: "Burgers", unit: "per 100 g of meat", how: "Patty grams read from the title; what a combo charges for its fries and drink." },
+  { food: "Drinks", unit: "per litre", how: "Cans, bottles and packs compared within their kind: soda with soda, beer with beer." },
+  { food: "Dishes sold by weight", unit: "per 100 g", how: "Marmitas, pokes, salads and bowls; 1 kg packs kept apart." },
+  { food: "Food sold by volume", unit: "per 100 ml", how: "Açaí, broths and ice cream by size, so the bigger cup shows what it saves; tubs apart." },
+  { food: "Dishes to share", unit: "per person", how: "“Serves 2” and up: the price, with fees, split per person." },
+  { food: "Any order", unit: "the 3 layers", how: "Food, fees and the difference, and how much of the product the fees are worth." }
+];
+
 export default function Home() {
   return (
     <>
       <section className={styles.hero}>
         <div className={`wrap ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
-            <span className="eyebrow">Extension · agent · MCP · Solana</span>
+            <span className="eyebrow">Unit pricing for food delivery</span>
             <h1 className={`display ${styles.headline}`}>You pay <span className={styles.three}>3</span> times for food.</h1>
             <p className={styles.lede}>
-              The food, the fees, and the difference to the cheapest option. The UPAY3FOOD extension shows all three on iFood, compares
-              the menu per litre and per gram, outlines the item worth buying and takes you to it.
+              The food, the fees, and the difference to the cheapest option. Supermarkets have to show the price per kilo and per litre;
+              delivery apps sell the same food without it. UPAY3FOOD adds it to every iFood menu, outlines the item worth buying and takes
+              you to it.
             </p>
             <p className="muted small">In Portuguese, “Você paga 3 vezes pela comida”: the name is the story.</p>
             <div className={styles.ctas}>
@@ -41,7 +52,7 @@ export default function Home() {
           <li>
             <img src="/instalar/tamanho.png" width={380} height={313} alt="The size worth buying, on a real menu" loading="lazy" />
             <strong>1 · Reads the shop’s menu</strong>
-            <span className="muted">No login, no private API: only what is on your screen. Ranks per litre, per 100 g of meat, and drinks by kind.</span>
+            <span className="muted">No login, no private API: only what is on your screen. Ranks it by unit price: per litre, per 100 g, per person.</span>
           </li>
           <li>
             <img src="/instalar/destaque.png" width={500} height={320} alt="The best item outlined on the menu" loading="lazy" />
@@ -54,6 +65,21 @@ export default function Home() {
             <span className="muted">Food, fees and the difference read from the page and checked against the total. Nothing is clicked for you.</span>
           </li>
         </ol>
+      </section>
+
+      <section className="wrap">
+        <div className={styles.head}>
+          <h2 className={`display ${styles.h2}`}>Any food, one unit price</h2>
+        </div>
+        <ul className={styles.units}>
+          {UNITS.map((u) => (
+            <li key={u.food}>
+              <span className={styles.unitTag}>{u.unit}</span>
+              <strong>{u.food}</strong>
+              <span className="muted">{u.how}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="wrap">
