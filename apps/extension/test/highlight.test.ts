@@ -2,6 +2,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { JSDOM } from "jsdom";
+import type { Cents } from "@nape3/domain";
 import { describe, expect, it } from "vitest";
 import { extractMenu } from "../src/content/extractors/restaurant";
 import { findCards, pickHighlights, renderHighlights, revealItem } from "../src/content/highlight";
@@ -29,5 +30,12 @@ describe("menu highlights (real Maranata menu cards)", () => {
     expect(doc.querySelector('a.dish-card')!.outerHTML).not.toContain("upay3food");
     expect(revealItem(doc, "*Marmitex de Açaí 700ml", 3199)).toBe(true);
     expect(revealItem(doc, "Item que não existe", 100)).toBe(false);
+  });
+
+  it("marks the best dish per 100 g on a shop that sells by weight", () => {
+    const card = (title: string, priceCents: number) => ({ title, priceCents: priceCents as Cents, originalPriceCents: null, servingsText: null });
+    const menu = [card("Marmita Fit 350g", 2490), card("Marmita Fit 500g", 2990), card("Poke de salmão 400g", 4290)];
+    const picks = pickHighlights(menu);
+    expect(picks).toEqual([expect.objectContaining({ title: "Marmita Fit 500g", tone: "best", label: "★ Melhor por 100 g · R$5,98" })]);
   });
 });

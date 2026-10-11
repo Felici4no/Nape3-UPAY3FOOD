@@ -38,11 +38,21 @@ the bag confirms them.
 
 ## Tamanho que compensa (`menuValue`)
 
-- **Inputs:** the açaí items on the restaurant page's menu cards (title +
-  current price). Cards repeated in the "Destaques" carousel are counted once.
-- **Ranking:** by price per 100 ml, cheapest first. Items without a size in
-  ml are left out and counted.
-- **Spread:** how much cheaper per 100 ml the best item is than the worst.
+Unit pricing for a shop's menu, the way a supermarket shelf shows price per
+kilo or per litre. Three measures:
+
+| Measure | Items | Unit |
+|---|---|---|
+| `volume` | food sold by volume (açaí, bowls) | per 100 ml; tubs and ≥ 1.5 L apart |
+| `meat` | burgers (grams in the title, no dish word) | per 100 g of meat |
+| `weight` | dishes sold by weight: grams in the title, no volume, and a dish word (marmita, poke, bowl, salada, prato, executivo, porção, lasanha…) | per 100 g of the dish; ≥ 1 kg apart |
+
+- **Inputs:** the restaurant page's menu cards (title + current price). Cards
+  repeated in the "Destaques" carousel are counted once.
+- **Ranking:** cheapest per 100 units first. Items without the measure are
+  left out and counted. The popup shows the measure this shop has the most
+  comparable items for.
+- **Spread:** how much cheaper per 100 units the best item is than the worst.
 - Menu prices only, no fees. The same comparison between shops needs the
   checkout totals (layer 3).
 

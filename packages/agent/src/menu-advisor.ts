@@ -1,4 +1,4 @@
-import { IFOOD_SERVICE_FEE_CENTS, isBulkFormat, parseVolumeMl, readBurger, type PurchaseIntent, type SourcePlatform } from "@nape3/domain";
+import { IFOOD_SERVICE_FEE_CENTS, isBulkFormat, isDishSoldByWeight, parseVolumeMl, readBurger, type PurchaseIntent, type SourcePlatform } from "@nape3/domain";
 
 /**
  * Menu advisor: answers an intent from the menus the user has already seen
@@ -91,7 +91,7 @@ export function adviseFromMenus(intent: PurchaseIntent, menus: readonly MenuObse
     if (options.marketRegion && menu.marketRegion && menu.marketRegion !== options.marketRegion) continue;
     shops += 1;
     for (const item of menu.items) {
-      const fits = category === "acai" ? ACAI.test(item.title) : BURGER.test(item.title) || readBurger(item.title).meatGrams !== null;
+      const fits = category === "acai" ? ACAI.test(item.title) : BURGER.test(item.title) || (readBurger(item.title).meatGrams !== null && !isDishSoldByWeight(item.title));
       if (!fits || item.priceCents <= 0) continue;
       const key = `${menu.merchant.platformId ?? menu.merchant.name}|${item.title}|${item.priceCents}`;
       if (seen.has(key)) continue;

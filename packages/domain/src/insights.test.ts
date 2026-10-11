@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { costInsights, isBulkFormat, menuValue, priceLayers, unitInsights } from "./insights";
+import { costInsights, dishWeightG, isBulkFormat, menuValue, priceLayers, unitInsights } from "./insights";
 import { parseServings, parseWeightG } from "./volume";
 
 describe("priceLayers (you pay 3 times for food)", () => {
@@ -106,5 +106,37 @@ describe("bulk formats (real menu, Açaí Godoi, 2026-10-10)", () => {
 describe("costInsights for drinks packs", () => {
   it("prices the whole pack per litre", () => {
     expect(costInsights({ title: "Cerveja Pilsen Lata Skol 269ml com 15un", priceCents: 5990 })).toMatchObject({ volumeMl: 4035, pricePerLiterCents: 1485 });
+  });
+});
+
+describe("menuValue by weight (dishes sold per gram)", () => {
+  it("reads dish grams but not drinks or burger meat", () => {
+    expect(dishWeightG("Marmita Fit 500g")).toBe(500);
+    expect(dishWeightG("Poke de salmão 400 g")).toBe(400);
+    expect(dishWeightG("Açaí 500ml")).toBeNull();
+    expect(dishWeightG("X-Burger 180g")).toBeNull();
+    expect(dishWeightG("Salada da casa")).toBeNull();
+  });
+
+  it("ranks per 100 g and keeps 1 kg packs apart", () => {
+    const menu = menuValue(
+      [
+        { title: "Marmita Fit 350g", priceCents: 2490 },
+        { title: "Marmita Fit 500g", priceCents: 2990 },
+        { title: "Poke de salmão 400g", priceCents: 4290 },
+        { title: "Marmita congelada 1kg", priceCents: 5490 },
+        { title: "Refrigerante lata 350ml", priceCents: 690 },
+        { title: "X-Burger 180g", priceCents: 3290 }
+      ],
+      "weight"
+    );
+    expect(menu.ranked.map((i) => [i.title, i.pricePer100mlCents])).toEqual([
+      ["Marmita Fit 500g", 598],
+      ["Marmita Fit 350g", 711],
+      ["Poke de salmão 400g", 1073]
+    ]);
+    expect(menu.bulkBest?.title).toBe("Marmita congelada 1kg");
+    expect(menu.unranked).toBe(2);
+    expect(menu.spreadPct).toBe(44.3);
   });
 });

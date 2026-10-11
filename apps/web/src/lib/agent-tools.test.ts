@@ -34,6 +34,20 @@ describe("agent tools (reais in, reais out)", () => {
     expect(r.drinks[0]).toMatchObject({ kind: "refrigerante" });
   });
 
+  it("ranks dishes sold by weight per 100 g, not as burger meat", () => {
+    const r = rankMenu({
+      items: [
+        { title: "Marmita Fit 350g", price_brl: 24.9 },
+        { title: "Marmita Fit 500g", price_brl: 29.9 },
+        { title: "Marmita congelada 1kg", price_brl: 54.9 },
+        { title: "Suco de laranja 500ml", price_brl: 9.9 }
+      ]
+    });
+    expect(r.kind).toBe("by_weight");
+    expect(r.ranked?.[0]).toMatchObject({ title: "Marmita Fit 500g", amount: 500, price_per_100_brl: 5.98 });
+    expect(r.per_kg_bulk).toMatchObject({ title: "Marmita congelada 1kg" });
+  });
+
   it("reads iFood links and drops everything but the path and item id", () => {
     expect(parseIfoodLink(`${SHOP}?prato=9b2f4c1e-7a3d-4e5f-8a6b-1c2d3e4f5a6b&token=secret`)).toEqual({
       ok: true,
