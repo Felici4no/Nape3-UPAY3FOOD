@@ -1,0 +1,15 @@
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+apps/observer-api/data/
+apps/agent-api/data/
+*.zip
+.next
+next-env.d.ts
+*.tsbuildinfo
+out/

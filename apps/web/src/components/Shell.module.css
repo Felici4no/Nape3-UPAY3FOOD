@@ -1,0 +1,85 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  isolation: isolate;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--paper) 82%, transparent), color-mix(in srgb, var(--cream) 86%, transparent));
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 1px 0 var(--line), 0 10px 24px -20px rgba(23, 19, 14, 0.5);
+}
+/* paper grain, then the brand stripe (the splash's four food colors) along the bottom edge */
+.bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--grain);
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  filter: invert(1);
+  pointer-events: none;
+}
+.bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--burger) 0 25%, var(--pizza) 25% 50%, var(--acai-2) 50% 75%, var(--sushi-2) 75% 100%);
+  opacity: 0.85;
+  transform-origin: left;
+  animation: stripeIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--after-splash, 0ms);
+}
+@keyframes stripeIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.links a { position: relative; }
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--burger-2); transform: scaleX(0); transition: transform 0.2s ease; }
+.links a:hover::after { transform: scaleX(1); }
+.inner { display: flex; align-items: center; gap: 28px; height: 64px; }
+.word {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  line-height: 1;
+  animation: wordIn 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--after-splash, 0ms);
+}
+.word span { color: var(--burger-2); display: inline-block; transition: transform 300ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+.word:hover span { transform: translateY(-3px) rotate(-6deg); }
+@keyframes wordIn {
+  from { opacity: 0; letter-spacing: 0.3em; }
+  to { opacity: 1; letter-spacing: 0.06em; }
+}
+.banner { background: #fff3c4; border-bottom: 1px solid #e9cf6b; color: #4a3a00; font-size: 13px; padding: 8px 0; }
+.bannerLive { background: #e3f3e4; border-bottom-color: #9fd0a3; color: #1e3f20; }
+.bannerWarn { background: #ffe1d6; border-bottom-color: #f0a58f; color: #6b1d0c; }
+.toggle { margin-left: 8px; font-weight: 600; white-space: nowrap; }
+/* leaves room for the floating bottom navigation */
+.links { display: flex; gap: 26px; margin-left: auto; font-size: 14.5px; font-weight: 600; }
+.links a { text-decoration: none; color: var(--ink-2); transition: color 0.12s ease; }
+.links a:hover { color: var(--ink); }
+.cta { padding: 9px 18px; font-size: 14px; box-shadow: none; }
+.footer { padding: 72px 0 48px; margin-top: 112px; }
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.sentence { font-size: clamp(40px, 6vw, 88px); max-width: 14ch; margin: 0; }
+.footCta { background: var(--burger); color: var(--ink); box-shadow: none; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--night-line, #3a3229); }
+.cols ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+.cols a { color: var(--night-ink); text-decoration: none; }
+.cols a:hover { text-decoration: underline; }
+.fine { margin: 40px 0 0; max-width: 90ch; color: var(--night-ink-2); line-height: 1.6; }
+@media (max-width: 760px) {
+  .word { font-size: 22px; }
+  .inner { height: 56px; }
+  .links { display: none; }
+  .cta { margin-left: auto; padding: 7px 14px; font-size: 13px; }
+  .cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* leaves room for the floating bottom navigation */
+  .footer { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word, .bar::after { animation: none; }
+}
