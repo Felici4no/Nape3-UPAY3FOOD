@@ -19,6 +19,9 @@ iFood, Rappi, 99Food or Keeta.
 | | |
 |---|---|
 | Site | https://upay3food.com |
+| Pitch video | https://youtu.be/4YkGsZAVUtc |
+| Demo video (live product) | https://youtu.be/6PwKFDQjmXU |
+| Colosseum project | https://colosseum.com/arena/projects/upay3food |
 | Install the extension | https://upay3food.com/instalar |
 | MCP server (for agents) | `https://upay3food.com/api/mcp` · [setup](https://upay3food.com/agentes) |
 | Transparency (Solana anchor) | https://upay3food.com/transparencia |
