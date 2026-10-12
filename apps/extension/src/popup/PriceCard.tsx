@@ -1,5 +1,5 @@
 import type { MenuAdvice, MenuCandidate } from "@nape3/agent";
-import { comboPremiums, costInsights, formatBRL, liquidValue, menuValue, priceLayers, readBurger, unitInsights, type Cents } from "@nape3/domain";
+import { comboPremiums, costInsights, formatBRL, isDishSoldByWeight, isFoodSoldByVolume, liquidValue, menuValue, priceLayers, readBurger, unitInsights, type Cents } from "@nape3/domain";
 import type { CartSnapshot, MenuCard, PageSnapshot } from "../shared/types";
 
 const brl = (cents: number) => formatBRL(cents as Cents);
@@ -192,17 +192,28 @@ export function CostXray({ snapshot }: { snapshot: PageSnapshot }) {
 }
 
 /**
- * "Tamanho que compensa": the shop's menu ranked by price per 100 ml (açaí)
- * or per 100 g of meat (burgers), plus what each combo charges for its extras.
+ * "Tamanho que compensa": the shop's menu ranked by price per 100 ml (açaí),
+ * per 100 g of meat (burgers) or per 100 g of the dish (marmitas, pokes),
+ * whichever this shop sells most of, plus what each combo charges for its extras.
  */
 export function MenuValueCard({ menu }: { menu: readonly MenuCard[] }) {
-  const acai = menu.filter((item) => /a[cç]a[ií]/i.test(item.title));
-  const burgers = menu.filter((item) => readBurger(item.title).meatGrams !== null || readBurger(item.title).isCombo);
-  const meat = acai.length < 2 && burgers.length >= 2;
-  const value = meat ? menuValue(burgers, "meat") : menuValue(acai, "volume");
+  const acai = menu.filter((item) => isFoodSoldByVolume(item.title));
+  const burgers = menu.filter((item) => !isDishSoldByWeight(item.title) && (readBurger(item.title).meatGrams !== null || readBurger(item.title).isCombo));
+  const byVolume = menuValue(acai, "volume");
+  const byMeat = menuValue(burgers, "meat");
+  const byWeight = menuValue(menu, "weight");
+  // the measure with the most comparable items wins; açaí first on a tie, as before
+  const pick = [
+    { mode: "volume" as const, value: byVolume },
+    { mode: "meat" as const, value: byMeat },
+    { mode: "weight" as const, value: byWeight }
+  ].reduce((a, b) => (b.value.ranked.length > a.value.ranked.length ? b : a));
+  const mode = pick.value.ranked.length >= 2 ? pick.mode : burgers.length >= 2 && acai.length < 2 ? "meat" : "volume";
+  const meat = mode === "meat";
+  const value = mode === "meat" ? byMeat : mode === "weight" ? byWeight : byVolume;
   const combos = meat ? comboPremiums(burgers) : [];
   if ((!value.best || !value.worst || value.ranked.length < 2) && combos.length === 0) return null;
-  const unit = meat ? "100 g de carne" : "100 ml";
+  const unit = meat ? "100 g de carne" : mode === "weight" ? "100 g" : "100 ml";
   return (
     <section className="xray">
       <span className="eyebrow">Tamanho que compensa</span>
@@ -231,9 +242,14 @@ export function MenuValueCard({ menu }: { menu: readonly MenuCard[] }) {
           </ul>
         </>
       )}
-      {!meat && value.bulkBest && (
+      {mode === "volume" && value.bulkBest && (
         <p className="muted small">
           Potes à parte: {value.bulkBest.title} sai <span className="num">{brl(value.bulkBest.pricePer100mlCents * 10)}/L</span> (outra compra).
+        </p>
+      )}
+      {mode === "weight" && value.bulkBest && (
+        <p className="muted small">
+          Por quilo à parte: {value.bulkBest.title} sai <span className="num">{brl(value.bulkBest.pricePer100mlCents * 10)}/kg</span> (outra compra).
         </p>
       )}
       {combos.slice(0, 2).map((combo) => (
@@ -242,7 +258,7 @@ export function MenuValueCard({ menu }: { menu: readonly MenuCard[] }) {
         </p>
       ))}
       <p className="muted small">
-        {value.ranked.length} itens com {meat ? "gramas de carne" : "tamanho em ml"}
+        {value.ranked.length} itens com {meat ? "gramas de carne" : mode === "weight" ? "peso em gramas" : "tamanho em ml"}
         {value.unranked ? ` · ${value.unranked} sem medida ficaram de fora` : ""} · preço do cardápio, sem taxas.
       </p>
     </section>

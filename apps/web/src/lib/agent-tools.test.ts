@@ -29,9 +29,23 @@ describe("agent tools (reais in, reais out)", () => {
 
   it("ranks a menu and drinks", () => {
     const r = rankMenu({ items: [{ title: "*Marmitex de Açaí 700ml", price_brl: 31.99 }, { title: "Açaí 300ml", price_brl: 19.99 }, { title: "Coca-Cola 2L", price_brl: 14 }, { title: "Coca-Cola Lata 350ml", price_brl: 7 }] });
-    expect(r.kind).toBe("acai");
+    expect(r.kind).toBe("by_volume");
     expect(r.ranked?.[0]).toMatchObject({ title: "*Marmitex de Açaí 700ml", price_per_100_brl: 4.57 });
     expect(r.drinks[0]).toMatchObject({ kind: "refrigerante" });
+  });
+
+  it("ranks dishes sold by weight per 100 g, not as burger meat", () => {
+    const r = rankMenu({
+      items: [
+        { title: "Marmita Fit 350g", price_brl: 24.9 },
+        { title: "Marmita Fit 500g", price_brl: 29.9 },
+        { title: "Marmita congelada 1kg", price_brl: 54.9 },
+        { title: "Suco de laranja 500ml", price_brl: 9.9 }
+      ]
+    });
+    expect(r.kind).toBe("by_weight");
+    expect(r.ranked?.[0]).toMatchObject({ title: "Marmita Fit 500g", amount: 500, price_per_100_brl: 5.98 });
+    expect(r.per_kg_bulk).toMatchObject({ title: "Marmita congelada 1kg" });
   });
 
   it("reads iFood links and drops everything but the path and item id", () => {
@@ -67,7 +81,7 @@ describe("text tools", () => {
     const r = readMenuFromText({ text, shop_name: "Maranata Açaí", shop_url: SHOP });
     expect(r.menu.delivery_fee_brl).toBe(6.99);
     expect(r.items_read).toBeGreaterThanOrEqual(15);
-    expect(r.summary?.kind).toBe("acai");
+    expect(r.summary?.kind).toBe("by_volume");
     const out = advise({ request: "quero açaí 300ml até R$30", menus: [r.menu], now: new Date() });
     expect(out.ok && out.best_for_request).toMatchObject({ shop: "Maranata Açaí", estimated_total_brl: 27.97 });
   });

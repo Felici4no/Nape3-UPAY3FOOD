@@ -1,4 +1,4 @@
-import { formatBRL, liquidValue, menuValue, readBurger, type Cents } from "@nape3/domain";
+import { formatBRL, isDishSoldByWeight, isFoodSoldByVolume, liquidValue, menuValue, readBurger, type Cents } from "@nape3/domain";
 import type { MenuCard } from "../shared/types";
 import { clean, isVisible, textOf } from "./dom";
 
@@ -38,7 +38,7 @@ export function pickHighlights(menu: readonly MenuCard[], recommended?: Recommen
       label: `Recomendado${recommended.estimatedTotalCents !== null ? ` · ${formatBRL(recommended.estimatedTotalCents as Cents)} estimado` : ""}`
     });
   }
-  const acai = menu.filter((m) => /a[cç]a[ií]/i.test(m.title));
+  const acai = menu.filter((m) => isFoodSoldByVolume(m.title));
   const acaiValue = menuValue(acai, "volume");
   if (acaiValue.best && acaiValue.ranked.length >= 2) {
     add({ title: acaiValue.best.title, priceCents: acaiValue.best.priceCents, tone: "best", label: `★ Melhor por litro · ${formatBRL((acaiValue.best.pricePer100mlCents * 10) as Cents)}/L` });
@@ -46,10 +46,14 @@ export function pickHighlights(menu: readonly MenuCard[], recommended?: Recommen
   if (acaiValue.bulkBest) {
     add({ title: acaiValue.bulkBest.title, priceCents: acaiValue.bulkBest.priceCents, tone: "bulk", label: `Pote · ${formatBRL((acaiValue.bulkBest.pricePer100mlCents * 10) as Cents)}/L` });
   }
-  const burgers = menu.filter((m) => readBurger(m.title).meatGrams !== null);
+  const burgers = menu.filter((m) => readBurger(m.title).meatGrams !== null && !isDishSoldByWeight(m.title));
   const meat = menuValue(burgers, "meat");
   if (meat.best && meat.ranked.length >= 2) {
     add({ title: meat.best.title, priceCents: meat.best.priceCents, tone: "best", label: `★ Melhor por 100 g de carne · ${formatBRL(meat.best.pricePer100mlCents as Cents)}` });
+  }
+  const byWeight = menuValue(menu, "weight");
+  if (byWeight.best && byWeight.ranked.length >= 2) {
+    add({ title: byWeight.best.title, priceCents: byWeight.best.priceCents, tone: "best", label: `★ Melhor por 100 g · ${formatBRL(byWeight.best.pricePer100mlCents as Cents)}` });
   }
   for (const group of liquidValue(menu)) {
     if (group.kind === "acai" || group.ranked.length < 2) continue;

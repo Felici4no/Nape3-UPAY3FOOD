@@ -56,10 +56,10 @@ const handler = createMcpHandler(
       {
         title: "Tamanho que compensa",
         description:
-          "Rank a shop's menu: açaí per 100 ml (potes apart), burgers per 100 g of meat with what each combo charges for its extras, and every drink per litre within its kind (packs count all units).",
+          "Rank a shop's menu by unit price: per 100 ml for food sold by volume (açaí, bowls; tubs apart), per 100 g of meat for burgers (with what each combo charges for its extras), per 100 g for dishes sold by weight (marmitas, pokes, salads; 1 kg packs apart), and every drink per litre within its kind (packs count all units).",
         inputSchema: z.object({
           items: z.array(z.object({ title: z.string().min(1).max(300), price_brl: brl })).min(1).max(400),
-          kind: z.enum(["auto", "acai", "burger", "drinks"]).optional()
+          kind: z.enum(["auto", "by_volume", "burger", "by_weight", "drinks", "acai"]).optional()
         })
       },
       async (input) => json(rankMenu(input))
@@ -70,7 +70,7 @@ const handler = createMcpHandler(
       {
         title: "Pesquisa no cardápio",
         description:
-          'Answer a purchase request in Portuguese (e.g. "quero açaí 500ml até R$25", "quero hamburguer até R$40") from menus your agent read: cheapest estimated checkout for the asked size, the closest size within budget, the best price per litre / per 100 g of meat, and a link to the item. Estimates only; confirm in the bag.',
+          'Answer a purchase request in Portuguese (e.g. "quero hamburguer até R$40", "quero açaí 500ml até R$25") from menus your agent read: cheapest estimated checkout for the asked size, the closest size within budget, the best price per litre / per 100 g of meat, and a link to the item. Estimates only; confirm in the bag.',
         inputSchema: z.object({
           request: z.string().min(3).max(200),
           menus: z
@@ -159,7 +159,7 @@ const handler = createMcpHandler(
       {
         title: "Pesquisar delivery com o UPAY3FOOD",
         description: "Step-by-step research of a delivery purchase: read shop pages, compare per litre / per 100 g, recommend with a link. Never orders or pays.",
-        argsSchema: z.object({ pedido: z.string().describe('e.g. "quero açaí 500ml até R$25"') })
+        argsSchema: z.object({ pedido: z.string().describe('e.g. "quero hamburguer até R$40"') })
       },
       ({ pedido }) => ({
         messages: [

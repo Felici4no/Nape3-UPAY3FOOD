@@ -33,20 +33,20 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 
 **Project name:** UPAY3FOOD
 
-**One-liner (EN):** You pay three times for delivery food — the food, the fees and the difference to the cheapest option. UPAY3FOOD shows all three on iFood, ranks the menu per litre and per gram, outlines the item worth buying, and lets any AI agent do the same through a public MCP server; the rules are anchored on Solana.
+**One-liner (EN):** Unit pricing for food delivery. You pay three times for food — the food, the fees and the difference to the cheapest option; UPAY3FOOD shows all three on iFood, adds the unit prices supermarkets must show (per 100 g, per litre, per person), outlines the item worth buying, and lets any AI agent do the same through a public MCP server. The rules are anchored on Solana.
 
-**One-liner (PT):** Você paga 3 vezes pela comida. O UPAY3FOOD mostra as três no iFood, compara o cardápio por litro e por grama, marca o item que compensa e deixa qualquer agente de IA fazer o mesmo via MCP; as regras ficam registradas na Solana.
+**One-liner (PT):** Você paga 3 vezes pela comida. O UPAY3FOOD mostra as três no iFood, traz o preço por unidade que o supermercado é obrigado a mostrar (por 100 g, por litro, por pessoa), marca o item que compensa e deixa qualquer agente de IA fazer o mesmo via MCP; as regras ficam registradas na Solana.
 
-**Problem.** Brazil's delivery market is in a subsidy war (iFood ~R$24 bn, Keeta R$5.6 bn, 99Food R$2 bn). Menu prices hide what you pay: delivery and service fees, coupons and sizes that are not comparable. No platform exposes consumer checkout prices through an API, and in 2026 Senacon started requiring price breakdowns. A 300 ml cup and a 700 ml bowl look similar on the menu; per litre one costs 46% more.
+**Problem.** Brazil's delivery market is in a subsidy war (iFood ~R$24 bn, Keeta R$5.6 bn, 99Food R$2 bn). Menu prices hide what you pay: delivery and service fees, coupons and sizes that are not comparable. No platform exposes consumer checkout prices through an API, and in 2026 Senacon started requiring price breakdowns. In the EU and Australia, supermarkets must show the price per kilo or litre so shoppers can compare sizes; delivery menus show none. In one real São Paulo shop, the dearest item costs 94% more per litre than the cheapest, and the fees on one order are worth 175 ml of the product.
 
 **Solution.**
 - **Browser extension** that reads the user's own page, observe-only:
   - "Você paga 3 vezes": food, fees and the difference;
   - "Raio-X do preço": per 100 ml, per litre, per 100 g, per person, and the fees expressed in product;
-  - "Tamanho que compensa": the whole menu ranked per litre or per 100 g of meat, with combo extras priced;
+  - unit prices for the whole menu: burgers per 100 g of meat (with combo extras priced), dishes sold by weight per 100 g, food sold by volume per 100 ml;
   - every drink per litre within its kind;
   - outlines of the best item on iFood's own menu.
-- **Explainable agent** ("quero açaí 500ml até R$25"): the cheapest estimated checkout, the nearest size, and a link straight to the item.
+- **Explainable agent** ("quero hambúrguer até R$40", "quero açaí 500ml até R$25"): the cheapest estimated checkout, the best unit price, and a link straight to the item.
 - **Public MCP server** (`https://upay3food.com/api/mcp`, 9 tools + 1 prompt) so Claude, ChatGPT or Cursor can read shop pages and get the same answers.
 - **Solana:**
   - USDC funding shielded through Cloak (1 USDC shielded on mainnet, slot 453687294);

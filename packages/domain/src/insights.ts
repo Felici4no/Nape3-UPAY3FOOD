@@ -1,6 +1,6 @@
 import { readBurger } from "./burger";
 import { drinkUnits, liquidKind } from "./liquids";
-import { parseServings, parseVolumeMl, parseWeightG } from "./volume";
+import { normalizeText, parseServings, parseVolumeMl, parseWeightG } from "./volume";
 
 /**
  * Buyer-side arithmetic for one delivery purchase: "you pay 3 times for food" —
@@ -168,13 +168,43 @@ export function isBulkFormat(title: string, volumeMl: number | null): boolean {
   return /\b(pote|balde|caixa|kg|quilo|para estocar)\b/i.test(title) && (volumeMl === null || volumeMl >= 1000);
 }
 
-/** What a menu is ranked by: açaí per 100 ml, burgers per 100 g of meat. */
-export type MenuMeasure = "volume" | "meat";
+/**
+ * What a menu is ranked by: per 100 ml (açaí, bowls, anything sold by volume),
+ * per 100 g of meat (burgers), or per 100 g of the dish (marmitas, pokes,
+ * salads: anything sold by weight).
+ */
+export type MenuMeasure = "volume" | "meat" | "weight";
+
+const WEIGHT_DISH = /\b(marmitas?|marmitex|quentinhas?|pokes?|bowls?|saladas?|pratos?|executivos?|refeicao|refeicoes|porcao|porcoes|fit|kg|quilos?|lasanhas?|strogonoff|estrogonofe|feijoada|yakisoba|parmegiana|risotos?|escondidinho|self.?service)\b/;
+
+/**
+ * A dish sold by weight (marmita 500 g, poke 400 g, salada 300 g): grams in
+ * the title, no volume, and a dish word. Without the dish word, grams on a
+ * menu are read as burger meat, as before.
+ */
+export function isDishSoldByWeight(title: string): boolean {
+  return parseVolumeMl(title) === null && parseWeightG(title) !== null && WEIGHT_DISH.test(normalizeText(title));
+}
+
+/**
+ * Food sold by volume (açaí, caldo, sorvete, bowls by ml): a size in ml and not
+ * a drink. Drinks are compared per litre within their kind (`liquidValue`).
+ */
+export function isFoodSoldByVolume(title: string): boolean {
+  if (parseVolumeMl(title) === null) return false;
+  const kind = liquidKind(title);
+  return kind === null || kind === "acai";
+}
+
+/** Grams of a dish sold by weight; null for drinks, burgers and anything without grams. */
+export function dishWeightG(title: string): number | null {
+  return isDishSoldByWeight(title) ? parseWeightG(title) : null;
+}
 
 export interface MenuValue {
   /** Items with a volume, cheapest per 100 ml first. */
   measure: MenuMeasure;
-  /** Items with a measure, cheapest per 100 units first. `volumeMl` holds ml or meat grams. */
+  /** Items with a measure, cheapest per 100 units first. `volumeMl` holds ml, meat grams or dish grams. */
   ranked: Array<MenuItemInput & { volumeMl: number; pricePer100mlCents: number }>;
   best: (MenuItemInput & { volumeMl: number; pricePer100mlCents: number }) | null;
   worst: (MenuItemInput & { volumeMl: number; pricePer100mlCents: number }) | null;
@@ -182,11 +212,11 @@ export interface MenuValue {
   spreadPct: number | null;
   /** Items without a readable volume (not ranked). */
   unranked: number;
-  /** Best bulk item (potes, ≥ 1,5 L) per 100 ml, kept apart from the ranking. */
+  /** Best bulk item (potes, ≥ 1,5 L, ≥ 1 kg) per 100 units, kept apart from the ranking. */
   bulkBest: (MenuItemInput & { volumeMl: number; pricePer100mlCents: number }) | null;
 }
 
-/** "Tamanho que compensa": ranks a shop's menu by price per 100 ml. Duplicate cards are counted once. */
+/** "Tamanho que compensa": ranks a shop's menu by price per 100 ml or 100 g. Duplicate cards are counted once. */
 export function menuValue(items: readonly MenuItemInput[], measure: MenuMeasure = "volume"): MenuValue {
   const seen = new Set<string>();
   const ranked: MenuValue["ranked"] = [];
@@ -196,13 +226,13 @@ export function menuValue(items: readonly MenuItemInput[], measure: MenuMeasure 
     const key = `${item.title.trim().toLowerCase()}|${item.priceCents}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    const volumeMl = measure === "meat" ? readBurger(item.title).meatGrams : parseVolumeMl(item.title);
+    const volumeMl = measure === "meat" ? readBurger(item.title).meatGrams : measure === "weight" ? dishWeightG(item.title) : parseVolumeMl(item.title);
     if (!volumeMl || item.priceCents <= 0) {
       unranked += 1;
       continue;
     }
     const entry = { ...item, volumeMl, pricePer100mlCents: Math.round((item.priceCents * 100) / volumeMl) };
-    if (measure === "volume" && isBulkFormat(item.title, volumeMl)) bulk.push(entry);
+    if ((measure === "volume" && isBulkFormat(item.title, volumeMl)) || (measure === "weight" && volumeMl >= 1000)) bulk.push(entry);
     else ranked.push(entry);
   }
   bulk.sort((a, b) => a.pricePer100mlCents - b.pricePer100mlCents);

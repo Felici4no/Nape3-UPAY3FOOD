@@ -10,7 +10,7 @@ const URL_MCP = "https://upay3food.com/api/mcp";
 
 const CLIENTS = [
   { name: "Claude (claude.ai and apps)", how: "Settings → Connectors → Add custom connector → paste the URL.", code: URL_MCP },
-  { name: "On your phone (Claude app)", how: "Add the connector once on claude.ai and it shows up in the app. Send a screenshot of an iFood menu and ask:", code: "Read this screenshot and use UPAY3FOOD: which açaí is the best value per litre?" },
+  { name: "On your phone (Claude app)", how: "Add the connector once on claude.ai and it shows up in the app. Send a screenshot of an iFood menu and ask:", code: "Read this screenshot and use UPAY3FOOD: which item here is the best value per 100 g?" },
   { name: "Claude Code", how: "In the terminal:", code: `claude mcp add --transport http upay3food ${URL_MCP}` },
   { name: "Cursor / VS Code / Windsurf", how: "In the editor's mcp.json:", code: `{\n  "mcpServers": {\n    "upay3food": { "url": "${URL_MCP}" }\n  }\n}` },
   { name: "ChatGPT", how: "With developer mode on: Settings → Connectors → Create → paste the URL.", code: URL_MCP },
@@ -20,9 +20,9 @@ const CLIENTS = [
 const TOOLS = [
   ["price_breakdown", "You pay 3 times", "food, fees and the difference to the cheapest option; the fees' share of the total"],
   ["item_cost", "Price X-ray", "per 100 ml, per litre, per 100 g, per person, per 100 ml with fees, the fees in ml of the product, grams of meat"],
-  ["rank_menu", "The size worth buying", "the menu per 100 ml or per 100 g of meat, tubs apart, combos, drinks per litre"],
-  ["advise", "Menu search", "“açaí 500 ml under R$25” → estimated total, nearest size, best per litre, link to the item"],
-  ["read_menu_text", "Read a menu (text)", "paste the shop page text → items, struck-through prices, servings, delivery fee and a per-litre summary"],
+  ["rank_menu", "Unit prices for a menu", "per 100 ml, per 100 g of meat, per 100 g of dishes sold by weight, drinks per litre; tubs and 1 kg packs apart, combo extras priced"],
+  ["advise", "Menu search", "“burger under R$40” → estimated total, best per 100 g of meat, link to the item"],
+  ["read_menu_text", "Read a menu (text)", "paste the shop page text → items, struck-through prices, servings, delivery fee and a unit-price summary"],
   ["read_bag_text", "Read a bag (text)", "paste the bag text → lines, fees, a checked total and the 3 layers"],
   ["compare_bags", "Compare bags", "real bags for the same purchase → ranking and the real difference to the cheapest"],
   ["parse_ifood_link", "Read an iFood link", "city, shop, shop and item ids; drops tokens and tracking"],
@@ -81,10 +81,10 @@ export default function Agentes() {
           <h2 className={`display ${styles.h2}`}>Extension + agent</h2>
           <ol>
             <li>Open a few iFood shops with the <Link href="/instalar">extension</Link>. No login needed.</li>
-            <li>In the popup, ask “quero açaí 500ml até R$25” (açaí 500 ml under R$25) and click <b>Copiar para o seu agente</b> (copy for your agent).</li>
+            <li>In the popup, ask “quero hambúrguer até R$40” (a burger under R$40) and click <b>Copiar para o seu agente</b> (copy for your agent).</li>
             <li>Paste it into your agent with the UPAY3FOOD connector on. It calls <code>advise</code> with the menus you read and answers with the link to the item.</li>
           </ol>
-          <pre className={styles.code}><code>{`Search for me: "açaí 500 ml under R$25".
+          <pre className={styles.code}><code>{`Search for me: "a burger under R$40".
 Use the UPAY3FOOD MCP server, tool advise,
 with these menus I read on iFood…`}</code></pre>
         </div>

@@ -80,3 +80,8 @@
 .trust li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cheaper); }
 .how li { position: relative; }
 .how img { -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent); mask-image: linear-gradient(to bottom, #000 82%, transparent); }
+.units { list-style: none; margin: 0 0 56px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.units li { display: grid; gap: 6px; align-content: start; padding: 18px; border-radius: var(--radius-l); background: var(--paper); border: 1px solid var(--line); font-size: 14px; line-height: 1.45; }
+.units strong { font-size: 17px; }
+.unitTag { justify-self: start; font-family: var(--font-num); font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--ink); color: var(--cream); }
+@media (max-width: 900px) { .units { grid-template-columns: minmax(0, 1fr); } }
