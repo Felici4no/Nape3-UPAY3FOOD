@@ -1,17 +1,24 @@
 # Submission — Crypto World's Fair (Colosseum)
 
-Updated 2026-10-11. Everything needed to fill each form, copy-paste ready.
+Updated 2026-10-12. Submitted to Colosseum and to the Earn sidetracks below; the
+answers in this note are the ones that were sent.
 
-> [!WARNING]
-> One field depends on something not done yet: the traction numbers. Do not submit them as placeholders.
+| Submission | Link |
+|---|---|
+| Colosseum project | https://colosseum.com/arena/projects/upay3food |
+| Pitch video (1:49) | https://youtu.be/4YkGsZAVUtc |
+| Demo video, live product (~2:00) | https://youtu.be/6PwKFDQjmXU |
+
+> [!NOTE]
+> Traction was submitted as "pre-users": no user metrics were reported, because none were measured yet.
 
 ## Deadline
 
 | Where | Closes | We aim for |
 |---|---|---|
-| Colosseum main submission | Oct 12, 23:59 PT (Oct 13, 06:59 UTC) | **Sunday Oct 12, 18:00 Brasília** |
-| Superteam Brasil wiki says | Oct 12, 23:59 Brasília (Oct 13, 02:59 UTC) | ← safest cutoff |
-| Superteam Earn sidetracks | Oct 13, 06:59 UTC | same day as above |
+| Colosseum main submission | Oct 12, 11:59 PM PDT (Oct 13, 06:59 UTC), confirmed on the Colosseum review screen | submitted Oct 12 |
+| Superteam Brasil wiki says | Oct 12, 23:59 Brasília (Oct 13, 02:59 UTC) | submitted Oct 12 |
+| Superteam Earn sidetracks | Oct 13, 06:59 UTC | submitted Oct 12 |
 
 ## Every prize we enter (one project)
 
@@ -23,11 +30,16 @@ Updated 2026-10-11. Everything needed to fill each form, copy-paste ready.
 | **Public Good Prize** | $5k | Colosseum form | public MCP server, open methodology anchored on Solana, open source |
 | **Superteam Brasil × SolarEcoFund** | 5,000 USDG | separate Earn submission; base country = Brazil on Colosseum | strong |
 | **RPC Fast Infrastructure** | ~$10.5k in RPC credits (21 teams) | separate Earn submission + RPC Fast form; follow @rpcfast, join their Telegram/Discord, 2–3 posts/month for 2 months | strong technically (all on-chain traffic goes through RPC Fast) |
-| Solami "live on Solana data" | 3,000 USDG | Earn; needs a Solami data path + live mainnet video | only if time allows (not built) |
+| AkcaVPN credits | 3,500 USDG in VPN credits (10 teams) | Earn; open to any Crypto World's Fair project; judged on need for a private connection (handling wallets/funds, remote work) | fits: mainnet wallet and Cloak shield |
+| Solami "live on Solana data" | 3,000 USDG | Earn; needs a Solami data path + live mainnet video | not built |
 
-Not eligible: other regional tracks (residents only), CertiK / Adevar (need an
-on-chain program), Meteora, Panta, peaq. Tempo/Base tracks need another chain.
-Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/earn FAQ.
+Not eligible, checked against each listing on Oct 12: regional tracks
+(Australia, Argentina, Spain/La Familia, UK, India and the rest are residents
+only); Adevar Labs ("Solana/Rust submissions only"); CertiK (judged on programs
+to audit and value at risk; we have no on-chain program); Meteora, Panta, peaq,
+KASE and iDos (need their integrations). Tempo/Base tracks need another chain.
+Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/earn FAQ,
+[all sidetracks](https://superteam.fun/earn/hackathon/crypto-worlds-fair).
 
 ## Fields
 
@@ -72,7 +84,7 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 - MCP server (`mcp-handler`, Streamable HTTP);
 - `@solana/kit` + web3.js and `@cloak.dev/sdk`;
 - private Vercel Blob for the dev bridge;
-- 497 tests (vitest), run in GitHub Actions on every push and PR;
+- 501 tests (vitest), run in GitHub Actions on every push and PR;
 - regression fixtures derived from real sanitized iFood captures (commercial data only).
 
 **Open source.** https://github.com/Felici4no/Nape3-UPAY3FOOD (public, MIT). The default branch `main` carries the full build; the README is written for reviewers.
@@ -106,17 +118,23 @@ Sources: [sidetrack research](benchmark.md), solanabr/wiki PR #3, SuperteamDAO/e
 - MCP: https://upay3food.com/api/mcp
 - GitHub: https://github.com/Felici4no/Nape3-UPAY3FOOD
 
-**Videos.** Pitch (≤ 3 min) and technical demo (≤ 3 min): [video scripts](video-scripts.md).
+**Videos.**
+- Pitch (1:49): https://youtu.be/4YkGsZAVUtc
+- Demo, live product, one take (~2:00): https://youtu.be/6PwKFDQjmXU
+- Scripts: [video scripts](video-scripts.md). Both voiceovers are AI voices (ElevenLabs); the video descriptions say so.
 
 ## Checklist
 
 - [x] Repository public (MIT)
 - [x] PR #1 merged, so `main` (the default branch) shows the project
 - [x] GitHub "About": website `https://upay3food.com`, description and topics
-- [ ] Colosseum: project registered, base country Brazil, student status in team fields
+- [x] Colosseum: project registered, base country Brazil, student status in team fields
 - [x] Transparency anchor signed on mainnet (slot 455501588), listed on /transparencia and in the field above
 - [ ] 10+ testers via /instalar; numbers collected with "Copiar meus números"
-- [ ] Pitch video and demo video uploaded (hide the iFood delivery address)
-- [ ] Colosseum form submitted
-- [ ] Earn: Superteam Brasil × SolarEcoFund submitted
-- [ ] Earn: RPC Fast submitted (+ follow, community, posts)
+- [x] Pitch video and demo video uploaded (hide the iFood delivery address)
+- [x] Colosseum form submitted, with the accelerator application
+- [x] Earn: Superteam Brasil × SolarEcoFund submitted
+- [x] Earn: RPC Fast submitted
+- [ ] Earn: AkcaVPN credits submitted
+- [ ] RPC Fast community: follow @rpcfast, join Telegram/Discord, 2–3 posts a month for 2 months
+- [ ] Re-sign the transparency anchor: the engine changed after slot 455501588, so /transparencia lists it as an earlier version
